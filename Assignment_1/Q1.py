@@ -1,7 +1,7 @@
 import cv2 
 cap = cv2.VideoCapture(0)
 count =0
-user_input = int(input("Enter the no of frame"))
+n = int(input("Enter the no of frame"))
 while True :
     count += 1
     x , frame = cap.read()
