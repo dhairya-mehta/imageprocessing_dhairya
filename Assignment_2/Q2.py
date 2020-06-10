@@ -1,7 +1,7 @@
 from cv2 import cv2
 import os
 cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)
-count =55
+count =1
 n = int(input("Enter the no of images "))
 while True:
     x , frame = cap.read()
