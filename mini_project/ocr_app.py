@@ -6,7 +6,7 @@ from tkinter import filedialog
 import pytesseract
 from PIL import Image
 from pytesseract import Output
-import os
+
 
 count=0
 root = tk.Tk()
@@ -34,26 +34,28 @@ def auto():
     x2=np.array([(0,0), (600,0), (0,600) , (600,600)],dtype=np.float32)
     perspective = cv2.getPerspectiveTransform(x1,x2)
     transform_auto = cv2.warpPerspective(img, perspective, (600,600))
-    cv2.imshow('Transformed', transform_auto)
+    cv2.imshow('Auto crop', transform_auto)
     return(transform_auto)
 
 def manual():
     pts=[]
     def mouse(event,x,y,flags,param):
+        
         if event==cv2.EVENT_LBUTTONDOWN:
             pts.append((x,y))
         if len(pts)==4:
+            
             pts_1=np.array([pts[0],pts[1],pts[3],pts[2]],np.float32)
             pts_2=np.array([(0,0),(400,0),(0,400),(400,400)],np.float32)
             perspective=cv2.getPerspectiveTransform(pts_1,pts_2)
             cv2.imshow('Manual crop',img)
             transformed_manual=cv2.warpPerspective(img,perspective,(400,400))
-            cv2.imshow('Manual crop',transformed_manual)
+            cv2.imshow('New image',transformed_manual)
+            if cv2.waitKey(1000) & 0xFF == ord('q') :
+                cv2.destroyAllWindows()
     cv2.namedWindow('Manual crop')
     cv2.imshow('Manual crop', img)
     cv2.setMouseCallback('Manual crop',mouse)
-    if cv2.waitKey(1000) & 0xFF == 'q':
-        cv2.destroyWindow('Manual crop')
 
 def image_open_btn_clicked():
     global img,filename
